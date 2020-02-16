@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { update, reset } from 'novux';
+import { update } from 'novux';
 
 import Modal from './Modal';
 import { submitNewEvent } from './thunks';
@@ -8,7 +8,7 @@ import { FORM_REDUCER } from './modules/reducers';
 
 import './AddEventModal.css';
 
-const AddEventModal = () => {
+const AddEventModal = ({ year, month, day }) => {
   const titleValue = useSelector(state => state[FORM_REDUCER].title);
   const locationValue = useSelector(state => state[FORM_REDUCER].location);
   const dispatch = useDispatch();
@@ -31,16 +31,10 @@ const AddEventModal = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(submitNewEvent());
-      dispatch(
-        reset(FORM_REDUCER, 'clear form', {
-          reset: []
-        })
-      );
+      dispatch(submitNewEvent({ year, month, day }));
     };
-  }, [dispatch]);
+  }, [dispatch, year, month, day]);
 
-  // TODO: add validation for having min title
   return (
     <Modal>
       <div className="addEvent">

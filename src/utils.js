@@ -2,8 +2,8 @@ import moment from 'moment';
 
 const TOTAL_DAYS_IN_MONTH_VIEW = 7 * 6; // grid view
 
-const DAY_IN_CURRENT_MONTH = { isCurrent: true };
-const DAY_IN_OTHER_MONTH = { isCurrent: false };
+const DAY_IN_CURRENT_MONTH = { isCurrentPeriod: true };
+const DAY_IN_OTHER_MONTH = { isCurrentPeriod: false };
 
 const now = moment();
 
@@ -17,6 +17,7 @@ const now = moment();
 export const getMonthViewDayProps = ({ month, year }) => {
   const currentPeriod = `${year} ${month}`;
   const previousMonth = moment(currentPeriod).subtract(1, 'month');
+  const nextMonth = moment(currentPeriod).add(1, 'month');
 
   const numDaysInPreviousMonth = moment(previousMonth).daysInMonth();
   const numDaysBeforeStartOfMonth = parseInt(
@@ -32,7 +33,9 @@ export const getMonthViewDayProps = ({ month, year }) => {
       .fill(DAY_IN_OTHER_MONTH)
       .map((el, index) => ({
         ...el,
-        day: numDaysInPreviousMonth - numDaysBeforeStartOfMonth + index + 1
+        day: numDaysInPreviousMonth - numDaysBeforeStartOfMonth + index + 1,
+        month: previousMonth.format('MMMM'),
+        year: previousMonth.format('MMMM') === 'December' ? year - 1 : year,
       })),
 
     ...Array(numDaysInCurrentMonth)
@@ -40,6 +43,8 @@ export const getMonthViewDayProps = ({ month, year }) => {
       .map((el, index) => ({
         ...el,
         day: index + 1,
+        month: now.format('MMMM'),
+        year,
         isToday: now.format('MMMM') === month && index + 1 === now.date(),
       }))
   ];
@@ -51,7 +56,12 @@ export const getMonthViewDayProps = ({ month, year }) => {
     monthViewDays = monthViewDays.concat(
       Array(numDaysAfterEndOfMonth)
         .fill(DAY_IN_OTHER_MONTH)
-        .map((el, index) => ({ ...el, day: index + 1 }))
+        .map((el, index) => ({
+          ...el,
+          day: index + 1,
+          month: nextMonth.format('MMMM'),
+          year: nextMonth.format('MMMM') === 'January' ? year + 1 : year
+        }))
     );
   }
 

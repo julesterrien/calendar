@@ -21,7 +21,7 @@
   color: white;
 }
 
-.isCurrent {
+.isCurrentPeriod {
   background: rgb(39, 39, 39);
 }
 
@@ -33,7 +33,7 @@
   width: inherit;
 }
 
-.cellButton header.isCurrent {
+.cellButton header.isCurrentPeriod {
   color: white;
 }
 
