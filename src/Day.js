@@ -13,6 +13,7 @@ import AddEventModal from './AddEventModal';
 
 import './Day.css';
 import Events from './Events';
+import { getEventDate } from './utils';
 
 const Day = ({ isCurrentPeriod, isToday, year, month, day, index }) => {
   const [numClicks, setNumClicks] = useState(0);
@@ -32,7 +33,7 @@ const Day = ({ isCurrentPeriod, isToday, year, month, day, index }) => {
   }, [numClicks, dispatch, index]);
 
   const events = useSelector(state => state[EVENTS_REDUCER]) || {};
-  const eventsAtDay = events[`${year} ${month} ${day}`] || [];
+  const eventsAtDay = events[getEventDate({ year, month, day })] || [];
 
   return (
     <article className={classnames('day', { isCurrentPeriod })}>

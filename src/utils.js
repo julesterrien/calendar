@@ -67,3 +67,5 @@ export const getMonthViewDayProps = ({ month, year }) => {
 
   return monthViewDays;
 };
+
+export const getEventDate = ({ year, month, day }) => `${year} ${month} ${day}`;

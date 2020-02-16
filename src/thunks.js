@@ -1,7 +1,12 @@
 import { update, reset } from 'novux';
 import shortid from 'shortid';
 
-import { FORM_REDUCER, EVENTS_REDUCER, MAIN_REDUCER, MODALS_REDUCER } from './modules/reducers';
+import {
+  FORM_REDUCER,
+  EVENTS_REDUCER,
+  MODALS_REDUCER
+} from './modules/reducers';
+import { getEventDate } from './utils';
 
 const DEFAULT_TITLE = 'New Event';
 
@@ -12,7 +17,7 @@ export const submitNewEvent = ({ year, month, day }) => (
   const formValues = getState()[FORM_REDUCER];
   const events = getState()[EVENTS_REDUCER] || {};
 
-  const date = `${year} ${month} ${day}`;
+  const date = getEventDate({ year, month, day });
   const eventsAtDay = events[date] || [];
 
   const newEvent = {
@@ -39,18 +44,20 @@ export const submitNewEvent = ({ year, month, day }) => (
   );
 };
 
-export const editEvent = (event) => (dispatch, getState) => {
+export const editEvent = event => (dispatch, getState) => {
   const formValues = getState()[FORM_REDUCER];
   const events = getState()[EVENTS_REDUCER];
 
-  const eventDate = `${event.year} ${event.month} ${event.day}`;
+  const { year, month, day } = event;
+
+  const eventDate = getEventDate({ year, month, day });
   const eventsForEventDate = events[eventDate] || [];
 
   const editedEvents = eventsForEventDate.map(({ eventId, ...eventData }) => {
     if (eventId === event.eventId) {
       return {
         ...event,
-        ...formValues,
+        ...formValues
       };
     }
     return eventData;
@@ -58,13 +65,32 @@ export const editEvent = (event) => (dispatch, getState) => {
 
   dispatch(
     update(EVENTS_REDUCER, 'Update event', {
-      [eventDate]: editedEvents,
+      [eventDate]: editedEvents
     })
   );
 
   dispatch(
     update(MODALS_REDUCER, 'Close event modal', {
       selectedEvent: undefined
+    })
+  );
+};
+
+export const deleteEvent = ({ year, month, day, eventId }) => (
+  dispatch,
+  getState
+) => {
+  const eventDate = getEventDate({ year, month, day });
+  const events = getState()[EVENTS_REDUCER];
+  const eventsForEventDate = events[eventDate] || [];
+
+  const updatedEvents = eventsForEventDate.filter(
+    evt => evt.eventId !== eventId
+  );
+
+  dispatch(
+    update(EVENTS_REDUCER, 'Delete event', {
+      [eventDate]: updatedEvents
     })
   );
 };

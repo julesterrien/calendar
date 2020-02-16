@@ -1,3 +1,7 @@
+/*
+  novux is a reducer factory pattern I wrote/open sourced
+  https://www.npmjs.com/package/novux
+*/
 import { createReducer } from 'novux';
 import moment from 'moment';
 

@@ -7,15 +7,26 @@ import EventModal from './EventModal';
 
 import './Events.css';
 import { openEventModal } from './actions';
-import { FORM_REDUCER, MODALS_REDUCER } from './modules/reducers';
-import { editEvent } from './thunks';
+import { FORM_REDUCER, MODALS_REDUCER, MAIN_REDUCER } from './modules/reducers';
+import { editEvent, deleteEvent } from './thunks';
 
 const Event = event => {
   const selectedEvent = useSelector(state => state[MODALS_REDUCER].selectedEvent);
+  const backspaceClicked = useSelector((state) => state[MAIN_REDUCER].backspaceClicked);
+
   const modalIsOpen = !!selectedEvent;
 
   const [numClicks, setNumClicks] = useState(0);
   const [isHighlighted, setIsHighlighted] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const formValues = useSelector((state) => state[FORM_REDUCER]);
+
+  const eventModalData = {
+    ...event,
+    ...formValues,
+  };
 
   const onBlurEvent = () => {
     if (!modalIsOpen) {
@@ -23,6 +34,7 @@ const Event = event => {
       setIsHighlighted(false);
     }
   };
+
   const onClickEvent = e => {
     // the parent el (Day) also uses an onClick handler to open AddEventModal
     e.stopPropagation();
@@ -32,7 +44,10 @@ const Event = event => {
     }
   };
 
-  const dispatch = useDispatch();
+  const onClose = () => {
+    dispatch(editEvent(event));
+  };
+
   useEffect(() => {
     if (numClicks === 1) {
       setIsHighlighted(true);
@@ -43,21 +58,16 @@ const Event = event => {
     }
   }, [numClicks, dispatch, event]);
 
-  const onClose = () => {
-    dispatch(editEvent(event));
-  };
-
   useEffect(() => {
     setIsHighlighted(false);
     setNumClicks(0);
   }, [selectedEvent]);
 
-  const formValues = useSelector((state) => state[FORM_REDUCER]);
-
-  const eventModalData = {
-    ...event,
-    ...formValues,
-  };
+  useEffect(() => {
+    if (backspaceClicked && numClicks === 1) {
+      dispatch(deleteEvent(event));
+    }
+  }, [backspaceClicked, dispatch, event, numClicks])
 
   return (
     <div
@@ -73,7 +83,7 @@ const Event = event => {
   );
 };
 
-const Events = ({ events }) => {
+const Events = ({ events }) => {  
   return (
     <div className="events">
       {events.map(event => (
