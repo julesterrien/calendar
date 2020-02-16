@@ -1,60 +1,32 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { update } from 'novux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Modal from './Modal';
+import EventModal from './EventModal';
 import { submitNewEvent } from './thunks';
+import { closeNewEventModal } from './actions';
 import { FORM_REDUCER } from './modules/reducers';
 
-import './AddEventModal.css';
-
-const AddEventModal = ({ year, month, day }) => {
-  const titleValue = useSelector(state => state[FORM_REDUCER].title);
-  const locationValue = useSelector(state => state[FORM_REDUCER].location);
+const AddEventModal = ownProps => {
   const dispatch = useDispatch();
 
-  const onChangeTitle = e => {
-    dispatch(
-      update(FORM_REDUCER, e.target.value, {
-        title: e.target.value
-      })
-    );
-  };
+  const { year, month, day } = ownProps;
 
-  const onChangeLocation = e => {
-    dispatch(
-      update(FORM_REDUCER, e.target.value, {
-        location: e.target.value
-      })
-    );
-  };
+  const title = useSelector(state => state[FORM_REDUCER].title);
+  const location = useSelector(state => state[FORM_REDUCER].location);
 
-  useEffect(() => {
-    return () => {
-      dispatch(submitNewEvent({ year, month, day }));
-    };
-  }, [dispatch, year, month, day]);
+  const submitAndClose = () => {
+    dispatch(submitNewEvent({ year, month, day }));
+    dispatch(closeNewEventModal());
+  }
 
   return (
-    <Modal>
-      <div className="addEvent">
-        <input
-          autoFocus
-          type="text"
-          placeholder="New Event"
-          className="title"
-          value={titleValue || ''}
-          onChange={onChangeTitle}
-        />
-        <input
-          type="text"
-          placeholder="Add Location"
-          className="location"
-          value={locationValue || ''}
-          onChange={onChangeLocation}
-        />
-      </div>
-    </Modal>
+    <EventModal
+      {...ownProps}
+      onClose={submitAndClose}
+      onEnter={submitAndClose}
+      title={title}
+      location={location}
+    />
   );
 };
 

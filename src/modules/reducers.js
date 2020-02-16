@@ -4,6 +4,7 @@ import moment from 'moment';
 export const MAIN_REDUCER = 'main';
 export const FORM_REDUCER = 'form';
 export const EVENTS_REDUCER = 'events';
+export const MODALS_REDUCER = 'modals';
 
 const now = moment();
 
@@ -16,10 +17,13 @@ const formReducer = createReducer(FORM_REDUCER, {});
 
 const eventsReducer = createReducer(EVENTS_REDUCER, {});
 
+const modalsReducer = createReducer(MODALS_REDUCER, {});
+
 const reducers = {
-  main: mainReducer,
-  form: formReducer,
-  events: eventsReducer,
+  [MAIN_REDUCER]: mainReducer,
+  [FORM_REDUCER]: formReducer,
+  [EVENTS_REDUCER]: eventsReducer,
+  [MODALS_REDUCER]: modalsReducer,
 };
 
 export default reducers;

@@ -1,7 +1,7 @@
-import { update, reset } from 'novux';
+import { update } from 'novux';
 import moment from 'moment';
 
-import { MAIN_REDUCER } from './modules/reducers';
+import { MAIN_REDUCER, MODALS_REDUCER } from './modules/reducers';
 
 const now = moment();
 
@@ -33,13 +33,19 @@ export const viewCurrentMonth = () => {
 };
 
 export const openNewEventModal = ({ index }) => {
-  return update(MAIN_REDUCER, 'Open event modal', {
-    newEventIndex: index,
+  return update(MODALS_REDUCER, 'Open new event modal', {
+    newEventModalIndex: index,
   });
 };
 
 export const closeNewEventModal = () => {
-  return reset(MAIN_REDUCER, 'Close event modal', {
-    reset: ['newEventIndex'],
+  return update(MODALS_REDUCER, 'Close new event modal', {
+    newEventModalIndex: undefined,
+  });
+};
+
+export const openEventModal = (event) => {
+  return update(MODALS_REDUCER, 'Open event modal', {
+    selectedEvent: event,
   });
 };

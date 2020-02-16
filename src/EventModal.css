@@ -1,5 +1,5 @@
 .addEvent {
-  padding: 1rem;
+  padding: 1.5rem;
 }
 
 input {
@@ -10,10 +10,19 @@ input {
   width: 100%;
 }
 
-.addEvent .title {
+.dateInputs {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.dateInputs input {
+  font-size: 1rem;
+}
+
+.titleInput {
   font-size: 2rem;
 }
 
-.addEvent .location {
+.locationInput {
   font-size: 1.3rem;
 }

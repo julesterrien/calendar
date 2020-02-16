@@ -1,23 +1,29 @@
 import React, { useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 import './modal.css';
-import { closeNewEventModal } from './actions';
 
-export const Modal = ({ children }) => {
-  const dispatch = useDispatch();
+export const Modal = ({ children, onClose, onEnter }) => {
   const wrapperRef = useRef(null);
 
   const handleClickOutside = (event) => {
-    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-      dispatch(closeNewEventModal());
+    if (onClose && wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      onClose()
     }
   }
 
+  const handleKeyPress = (event) => {
+    if (onEnter && event.key === "Enter") {
+      onEnter()
+    }
+  };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keypress", handleKeyPress);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keypress", handleKeyPress);
     };
   });
 

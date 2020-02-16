@@ -45,16 +45,3 @@
 .dayDate.isToday {
   color: #ffbe00;
 }
-
-.events {
-  flex-grow: 1;
-  margin-top: 0.3rem;
-  width: 100%;
-}
-
-.events .event {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  background: rgb(83, 50, 66);
-  color: white;
-}
