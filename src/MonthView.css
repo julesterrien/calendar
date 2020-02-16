@@ -1,3 +1,24 @@
 .view {
   display: flex;
+  flex-direction: column;
+}
+
+.dayNames {
+  display: flex;
+}
+
+.dayName {
+  width: calc((100vw - (14 * 1px)) / 7);
+  text-align: right;
+  border: 1px solid transparent;
+  border-top: 0;
+}
+
+.dayName > .dayNameTitle {
+  padding: 0.5rem;
+}
+
+.dayCells {
+  display: flex;
+  flex-wrap: wrap;
 }

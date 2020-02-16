@@ -2,30 +2,42 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { MAIN_REDUCER } from './modules/reducers';
-import { viewPreviousMonth, viewNextMonth } from './actions';
+import {
+  viewPreviousMonth,
+  viewNextMonth,
+  viewCurrentMonth,
+} from './actions';
+
+import './Header.css';
 
 const Header = () => {
   const dispatch = useDispatch();
   const currentMonth = useSelector(state => state[MAIN_REDUCER].currentMonth);
   const currentYear = useSelector(state => state[MAIN_REDUCER].currentYear);
 
-  const seePreviousMonth = () => {
+  const onPreviousClick = () => {
     dispatch(viewPreviousMonth());
   };
 
-  const seeNextMonth = () => {
+  const onNextClick = () => {
     dispatch(viewNextMonth());
+  };
+
+  const onTodayClick = () => {
+    dispatch(viewCurrentMonth());
   };
 
   return (
     <header className="header">
       <div className="currentPeriod">
-        {currentMonth} {currentYear}
+        <h4 className="month">{currentMonth}</h4>
+        <h3>{currentYear}</h3>
       </div>
 
       <nav className="nav">
-        <button onClick={seePreviousMonth}>{'<-'}</button>
-        <button onClick={seeNextMonth}>{'->'}</button>
+        <button onClick={onPreviousClick}>‹</button>
+        <button onClick={onTodayClick}>Today</button>
+        <button onClick={onNextClick}>›</button>
       </nav>
     </header>
   );

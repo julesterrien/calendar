@@ -7,29 +7,45 @@ const DAY_IN_OTHER_MONTH = { current: false };
 
 /**
  * getMonthViewDayProps
- * @param {String} currentMonth eg. '2020 Febuary'
- * @returns {Array} previous + current + next month days to be displayed on the month view grid
+ * returns an array with all days to be shown on current month grid
+ * uses Array.fill which requires a polyfill for IE but not included in this MVP
+ * @param {String} currentPeriod eg. '2020 Febuary'
+ * @returns {Array} [...previousMonthDays, ...currentMonthDays, ...nextMonthDays]
  */
-export const getMonthViewDayProps = ({ currentMonth }) => {
+export const getMonthViewDayProps = ({ month, year }) => {
+  const currentPeriod = `${year} ${month}`;
+  const previousMonth = moment(currentPeriod).subtract(1, 'month');
+
+  const numDaysInPreviousMonth = moment(previousMonth).daysInMonth();
   const numDaysBeforeStartOfMonth = parseInt(
-    moment(currentMonth)
+    moment(currentPeriod)
       .startOf('month')
       .format('d'),
     10
   );
-  const numDaysInCurrentMonth = moment(currentMonth).daysInMonth();
+  const numDaysInCurrentMonth = moment(currentPeriod).daysInMonth();
 
   let monthViewDays = [
-    // Array.fill requires a polyfill for IE (not included in this MVP)
-    ...Array(numDaysBeforeStartOfMonth).fill(DAY_IN_OTHER_MONTH),
-    ...Array(numDaysInCurrentMonth).fill(DAY_IN_CURRENT_MONTH)
+    ...Array(numDaysBeforeStartOfMonth)
+      .fill(DAY_IN_OTHER_MONTH)
+      .map((el, index) => ({
+        ...el,
+        day: numDaysInPreviousMonth - numDaysBeforeStartOfMonth + index + 1
+      })),
+
+    ...Array(numDaysInCurrentMonth)
+      .fill(DAY_IN_CURRENT_MONTH)
+      .map((el, index) => ({ ...el, day: index + 1 }))
   ];
 
   const numDaysAfterEndOfMonth =
     TOTAL_DAYS_IN_MONTH_VIEW - monthViewDays.length;
+
   if (numDaysAfterEndOfMonth) {
     monthViewDays = monthViewDays.concat(
-      Array(numDaysAfterEndOfMonth).fill(DAY_IN_OTHER_MONTH)
+      Array(numDaysAfterEndOfMonth)
+        .fill(DAY_IN_OTHER_MONTH)
+        .map((el, index) => ({ ...el, day: index + 1 }))
     );
   }
 

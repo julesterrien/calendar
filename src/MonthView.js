@@ -15,18 +15,24 @@ const MonthView = () => {
 
   const month = useSelector(state => state[MAIN_REDUCER].currentMonth);
   const year = useSelector(state => state[MAIN_REDUCER].currentYear);
-
-  const currentMonth = `${year} ${month}`;
-  const monthViewDays = getMonthViewDayProps({ currentMonth });
+  const monthViewDays = getMonthViewDayProps({ month, year });
 
   return (
     <div className="view">
-      {dayNames.map(name => (
-        <div key={name}>{name}</div>
-      ))}
-      {monthViewDays.map(day => (
-        <Day key={shortid.generate()} {...day} />
-      ))}
+      <div className="dayNames">
+        {dayNames.map(name => (
+          <div key={name} className="dayName">
+            <h6 className="dayNameTitle">
+              {name}
+            </h6>
+          </div>
+        ))}
+      </div>
+      <main className="dayCells">
+        {monthViewDays.map(day => (
+          <Day key={shortid.generate()} {...day} />
+        ))}
+      </main>
     </div>
   );
 };

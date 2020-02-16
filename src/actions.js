@@ -22,3 +22,12 @@ export const viewNextMonth = () => {
     currentYear: nextMonth.year()
   });
 };
+
+export const viewCurrentMonth = () => {
+  const currentMonth = moment();
+
+  return update(MAIN_REDUCER, 'View current month', {
+    currentMonth: currentMonth.format('MMMM'),
+    currentYear: currentMonth.year()
+  });
+};
