@@ -35,7 +35,7 @@ export const getMonthViewDayProps = ({ month, year }) => {
         ...el,
         day: numDaysInPreviousMonth - numDaysBeforeStartOfMonth + index + 1,
         month: previousMonth.format('MMMM'),
-        year: previousMonth.format('MMMM') === 'December' ? year - 1 : year,
+        year: previousMonth.format('MMMM') === 'December' ? year - 1 : year
       })),
 
     ...Array(numDaysInCurrentMonth)
@@ -45,7 +45,10 @@ export const getMonthViewDayProps = ({ month, year }) => {
         day: index + 1,
         month: now.format('MMMM'),
         year,
-        isToday: now.format('MMMM') === month && index + 1 === now.date(),
+        isToday:
+          now.format('YYYY') === year.toString() &&
+          now.format('MMMM') === month &&
+          index + 1 === now.date()
       }))
   ];
 

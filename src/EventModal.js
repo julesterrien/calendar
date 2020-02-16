@@ -63,19 +63,19 @@ const EventModal = ({
             type="text"
             className="monthInput"
             value={month}
-            onChange={(e) => onChange({ e, key: INPUTS.month })}
+            disabled
           />
           <input
             type="text"
             className="dayInput"
             value={day}
-            onChange={(e) => onChange({ e, key: INPUTS.day })}
+            disabled
           />
           <input
             type="text"
             className="yearInput"
             value={year}
-            onChange={(e) => onChange({ e, key: INPUTS.year })}
+            disabled
           />
         </div>
       </div>
