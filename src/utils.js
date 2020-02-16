@@ -2,8 +2,8 @@ import moment from 'moment';
 
 const TOTAL_DAYS_IN_MONTH_VIEW = 7 * 6; // grid view
 
-const DAY_IN_CURRENT_MONTH = { current: true };
-const DAY_IN_OTHER_MONTH = { current: false };
+const DAY_IN_CURRENT_MONTH = { isCurrent: true };
+const DAY_IN_OTHER_MONTH = { isCurrent: false };
 
 /**
  * getMonthViewDayProps

@@ -29,8 +29,8 @@ const MonthView = () => {
         ))}
       </div>
       <main className="dayCells">
-        {monthViewDays.map(day => (
-          <Day key={shortid.generate()} {...day} />
+        {monthViewDays.map((day, index) => (
+          <Day key={shortid.generate()} index={index} {...day} />
         ))}
       </main>
     </div>

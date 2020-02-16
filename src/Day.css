@@ -1,5 +1,6 @@
 .day {
   background: transparent;
+  /* position: relative; */
   border: 1px solid rgb(77, 76, 77);
 
   /* 7 * 6 bordered full bleed grid */
@@ -7,18 +8,49 @@
   height: calc(((100vh - (14 * 1px)) - 103px) / 6);
 }
 
-.current {
+.cellButton {
+  margin: 0;
+  border: 0;
+  width: inherit;
+  height: 100%; 
+  background: transparent;
+  display: flex;
+  padding: 0;
+  flex-direction: column;
+  outline: none;
+  color: white;
+}
+
+.isCurrent {
   background: rgb(39, 39, 39);
 }
 
-.day header {
+.cellButton header {
   justify-content: flex-end;
   display: flex;
   font-size: 1rem;
-  padding: 0.5rem;
   color: rgb(73, 73, 73);
+  width: inherit;
 }
 
-.day header.current {
+.cellButton header.isCurrent {
+  color: white;
+}
+
+.dayDate {
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.events {
+  flex-grow: 1;
+  margin-top: 0.3rem;
+  width: 100%;
+}
+
+.events .event {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  background: rgb(83, 50, 66);
   color: white;
 }

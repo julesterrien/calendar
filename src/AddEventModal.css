@@ -1,0 +1,19 @@
+.addEvent {
+  padding: 1rem;
+}
+
+input {
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: white;
+  width: 100%;
+}
+
+.addEvent .title {
+  font-size: 2rem;
+}
+
+.addEvent .location {
+  font-size: 1.3rem;
+}
