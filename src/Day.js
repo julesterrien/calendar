@@ -10,7 +10,7 @@ import AddEventModal from './AddEventModal';
 
 import './Day.css';
 
-const Day = ({ isCurrent, day, index }) => {
+const Day = ({ isCurrent, day, isToday, index }) => {
   const [numClicks, setNumClicks] = useState(0);
   const onBlur = () => setNumClicks(0);
   const onClick = () => setNumClicks(numClicks + 1);
@@ -31,7 +31,9 @@ const Day = ({ isCurrent, day, index }) => {
       )}
       <button className="cellButton" onBlur={onBlur} onClick={onClick}>
         <header className={classnames({ isCurrent })}>
-          <span className="dayDate">{day}</span>
+          <span className={classnames('dayDate', { isToday })}>
+            {day}
+          </span>
         </header>
         <div className="events">
           <div className="event">Event 1</div>

@@ -5,6 +5,8 @@ const TOTAL_DAYS_IN_MONTH_VIEW = 7 * 6; // grid view
 const DAY_IN_CURRENT_MONTH = { isCurrent: true };
 const DAY_IN_OTHER_MONTH = { isCurrent: false };
 
+const now = moment();
+
 /**
  * getMonthViewDayProps
  * returns an array with all days to be shown on current month grid
@@ -35,7 +37,11 @@ export const getMonthViewDayProps = ({ month, year }) => {
 
     ...Array(numDaysInCurrentMonth)
       .fill(DAY_IN_CURRENT_MONTH)
-      .map((el, index) => ({ ...el, day: index + 1 }))
+      .map((el, index) => ({
+        ...el,
+        day: index + 1,
+        isToday: now.format('MMMM') === month && index + 1 === now.date(),
+      }))
   ];
 
   const numDaysAfterEndOfMonth =

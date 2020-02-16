@@ -42,6 +42,10 @@
   margin-top: 0.5rem;
 }
 
+.dayDate.isToday {
+  color: #ffbe00;
+}
+
 .events {
   flex-grow: 1;
   margin-top: 0.3rem;
