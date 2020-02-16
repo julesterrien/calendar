@@ -1,0 +1,7 @@
+.day {
+  background: grey;
+}
+
+.day.current {
+  background: black;
+}
