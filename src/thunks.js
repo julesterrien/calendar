@@ -29,10 +29,10 @@ export const submitNewEvent = ({ year, month, day }) => async (
 
   const { data, error, status } = await api.postNewEvent(newEvent);
 
-  if (error) {
-    // TODO: show error banner
+  if (error || status !== 200) {
+    // TODO: it would be nice to show a banner notifying the user of an error
     console.log(error);
-  } else if (data || status === 200) {
+  } else if (data) {
     dispatch(
       update(EVENTS_REDUCER, 'update eventsAtDay', {
         [date]: data.eventsAtDay
@@ -58,10 +58,10 @@ export const editEvent = event => async (dispatch, getState) => {
     ...formValues
   });
 
-  if (error) {
-    // TODO: show error banner
+  if (error || status !== 200) {
+    // TODO: it would be nice to show a banner notifying the user of an error
     console.log(error);
-  } else if (data || status === 200) {
+  } else if (data) {
     dispatch(
       update(EVENTS_REDUCER, 'Update eventsAtDay', {
         [eventDate]: data.eventsAtDay
@@ -87,10 +87,10 @@ export const deleteEvent = ({ year, month, day, eventId }) => async (
     eventId
   });
 
-  if (error) {
-    // TODO: show error banner
+  if (error || status !== 200) {
+    // TODO: it would be nice to show a banner notifying the user of an error
     console.log(error);
-  } else if (data || status === 200) {
+  } else if (data) {
     dispatch(
       update(EVENTS_REDUCER, 'Update eventsAtDay', {
         [eventDate]: data.eventsAtDay
@@ -106,12 +106,14 @@ export const deleteEvent = ({ year, month, day, eventId }) => async (
 };
 
 export const loadEvents = ({ year, month }) => async (dispatch) => {
+  // note: it would be nice to show a loading state while this data is being fetched but it's overkill for this MVP
+
   const { data, error, status } = await api.loadEvents({ year, month });
 
-  if (error) {
-    // TODO: show error banner
+  if (error || status !== 200) {
+    // TODO: it would be nice to show a banner notifying the user of an error
     console.log(error);
-  } else if (data || status === 200) {
+  } else if (data) {
     dispatch(
       update(MAIN_REDUCER, 'Update monthViewDays schema', {
         monthViewDays: data.monthViewDays,
