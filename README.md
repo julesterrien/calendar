@@ -14,6 +14,7 @@ Calendar app loosely inspired by Apple's calendar app.
 
 ### Run
 
+`yarn install`: install dependencies
 `yarn start`: runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
