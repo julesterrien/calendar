@@ -1,7 +1,7 @@
 import { redis } from './lib';
 import shortid from 'shortid';
 
-import { getParsedEvents, getEventDate } from './utils';
+import { getParsedEvents, getEventDate, getMonthViewDayProps } from './utils';
 
 export const createEvent = async (req, res) => {
   const { title, location = '', year, month, day } = req.body;
@@ -24,7 +24,7 @@ export const createEvent = async (req, res) => {
   } catch (e) {
     console.log('e', e);
   }
-}
+};
 
 export const editEvent = async (req, res) => {
   const { eventId, title, location = '', year, month, day } = req.body;
@@ -56,7 +56,7 @@ export const editEvent = async (req, res) => {
   } catch (e) {
     console.log('e', e);
   }
-}
+};
 
 export const deleteEvent = async (req, res) => {
   try {
@@ -87,4 +87,48 @@ export const deleteEvent = async (req, res) => {
   } catch (e) {
     console.log('e', e);
   }
-}
+};
+
+export const loadEvents = async (req, res) => {
+  try {
+    const { year, month } = req.params;
+
+    const monthViewDays = getMonthViewDayProps({ month, year });
+
+    const promises = [];
+    monthViewDays.forEach(daySchema => {
+      if (!daySchema.year || !daySchema.month || !daySchema.day) {
+        throw new Error('Missing required date data');
+      }
+      const eventDate = getEventDate({
+        year: daySchema.year,
+        month: daySchema.month,
+        day: daySchema.day
+      });
+      promises.push(redis.lrange(eventDate, 0, -1));
+    });
+
+    const eventsPerDay = await Promise.all(promises);
+
+    const parsedEventsPerDay = eventsPerDay.reduce((accu, eventsPerDay, i) => {
+      const { year, month, day } = monthViewDays[i];
+      const parsedEventsPerDay = getParsedEvents({
+        events: eventsPerDay,
+        year,
+        month,
+        day,
+      });
+      const eventDate = getEventDate({
+        year,
+        month,
+        day,
+      });
+      accu[eventDate] = parsedEventsPerDay;
+      return accu;
+    }, {});
+
+    return res.send({ events: parsedEventsPerDay, monthViewDays });
+  } catch (e) {
+    console.log('e', e);
+  }
+};

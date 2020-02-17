@@ -34,3 +34,14 @@ export const deleteEvent = async ({ eventDate, eventId }) => {
     }
   }
 }
+
+export const loadEvents = async ({ year, month }) => {
+  try {
+    const response = await axios.get(`/api/events/${year}/${month}`);
+    return response;
+  } catch (error) {
+    return {
+      error: ERROR,
+    }
+  }
+}

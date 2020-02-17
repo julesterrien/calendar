@@ -16,11 +16,11 @@ const Header = () => {
   const currentYear = useSelector(state => state[MAIN_REDUCER].currentYear);
 
   const onPreviousClick = () => {
-    dispatch(viewPreviousMonth());
+    dispatch(viewPreviousMonth({ month: currentMonth, year: currentYear }));
   };
 
   const onNextClick = () => {
-    dispatch(viewNextMonth());
+    dispatch(viewNextMonth({ month: currentMonth, year: currentYear }));
   };
 
   const onTodayClick = () => {

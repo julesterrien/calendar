@@ -104,3 +104,21 @@ export const deleteEvent = ({ year, month, day, eventId }) => async (
     })
   );
 };
+
+export const loadEvents = ({ year, month }) => async (dispatch) => {
+  const { data, error, status } = await api.loadEvents({ year, month });
+
+  if (error) {
+    // TODO: show error banner
+    console.log(error);
+  } else if (data || status === 200) {
+    dispatch(
+      update(MAIN_REDUCER, 'Update monthViewDays schema', {
+        monthViewDays: data.monthViewDays,
+      })
+    );
+    dispatch(
+      update(EVENTS_REDUCER, 'Update eventsAtDay', data.events)
+    );
+  }
+};

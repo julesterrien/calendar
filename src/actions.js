@@ -3,10 +3,8 @@ import moment from 'moment';
 
 import { MAIN_REDUCER, MODALS_REDUCER } from './modules/reducers';
 
-const now = moment();
-
-export const viewPreviousMonth = () => {
-  const previousMonth = now.subtract(1, 'month');
+export const viewPreviousMonth = ({ month, year }) => {
+  const previousMonth = moment(`${year} ${month}`).subtract(1, 'month');
 
   return update(MAIN_REDUCER, 'View previous month', {
     currentMonth: previousMonth.format('MMMM'),
@@ -14,8 +12,8 @@ export const viewPreviousMonth = () => {
   });
 };
 
-export const viewNextMonth = () => {
-  const nextMonth = now.add(1, 'month');
+export const viewNextMonth = ({ month, year }) => {
+  const nextMonth = moment(`${year} ${month}`).add(1, 'month');
 
   return update(MAIN_REDUCER, 'View next month', {
     currentMonth: nextMonth.format('MMMM'),
