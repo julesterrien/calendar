@@ -26,3 +26,15 @@ input {
 .locationInput {
   font-size: 1.3rem;
 }
+
+.monthInput {
+  width: 5.5rem;
+}
+
+.dayInput {
+  width: 1.8rem;
+}
+
+.yearInput {
+  width: 3rem;
+}

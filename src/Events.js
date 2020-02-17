@@ -11,8 +11,12 @@ import { FORM_REDUCER, MODALS_REDUCER, MAIN_REDUCER } from './modules/reducers';
 import { editEvent, deleteEvent } from './thunks';
 
 const Event = event => {
-  const selectedEvent = useSelector(state => state[MODALS_REDUCER].selectedEvent);
-  const backspaceClicked = useSelector((state) => state[MAIN_REDUCER].backspaceClicked);
+  const selectedEvent = useSelector(
+    state => state[MODALS_REDUCER].selectedEvent
+  );
+  const backspaceClicked = useSelector(
+    state => state[MAIN_REDUCER].backspaceClicked
+  );
 
   const modalIsOpen = !!selectedEvent;
 
@@ -21,11 +25,11 @@ const Event = event => {
 
   const dispatch = useDispatch();
 
-  const formValues = useSelector((state) => state[FORM_REDUCER]);
+  const formValues = useSelector(state => state[FORM_REDUCER]);
 
   const eventModalData = {
     ...event,
-    ...formValues,
+    ...formValues
   };
 
   const onBlurEvent = () => {
@@ -67,7 +71,7 @@ const Event = event => {
     if (backspaceClicked && numClicks === 1) {
       dispatch(deleteEvent(event));
     }
-  }, [backspaceClicked, dispatch, event, numClicks])
+  }, [backspaceClicked, dispatch, event, numClicks]);
 
   return (
     <div
@@ -83,12 +87,12 @@ const Event = event => {
   );
 };
 
-const Events = ({ events }) => {  
+const Events = ({ events }) => {
   return (
     <div className="events">
-      {events.map(event => (
-        <Event key={shortid.generate()} {...event} />
-      ))}
+      {events.map(event => {
+        return <Event key={shortid.generate()} {...event} />;
+      })}
     </div>
   );
 };

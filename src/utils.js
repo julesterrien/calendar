@@ -7,6 +7,45 @@ const DAY_IN_OTHER_MONTH = { isCurrentPeriod: false };
 
 const now = moment();
 
+const getDaysPreviousMonth = ({
+  numDaysBeforeStartOfMonth,
+  numDaysInPreviousMonth,
+  previousMonth,
+  year
+}) =>
+  Array(numDaysBeforeStartOfMonth)
+    .fill(DAY_IN_OTHER_MONTH)
+    .map((el, index) => ({
+      ...el,
+      day: numDaysInPreviousMonth - numDaysBeforeStartOfMonth + index + 1,
+      month: previousMonth.format('MMMM'),
+      year: previousMonth.format('MMMM') === 'December' ? year - 1 : year
+    }));
+
+const getDaysCurrentMonth = ({ numDaysInCurrentMonth, year, month }) =>
+  Array(numDaysInCurrentMonth)
+    .fill(DAY_IN_CURRENT_MONTH)
+    .map((el, index) => ({
+      ...el,
+      day: index + 1,
+      month,
+      year,
+      isToday:
+        now.format('YYYY') === year.toString() &&
+        now.format('MMMM') === month &&
+        now.date() === index + 1
+    }));
+
+const getDaysNextMonth = ({ numDaysAfterEndOfMonth, nextMonth, year }) =>
+  Array(numDaysAfterEndOfMonth)
+    .fill(DAY_IN_OTHER_MONTH)
+    .map((el, index) => ({
+      ...el,
+      day: index + 1,
+      month: nextMonth.format('MMMM'),
+      year: nextMonth.format('MMMM') === 'January' ? year + 1 : year
+    }));
+
 /**
  * getMonthViewDayProps
  * returns an array with all days to be shown on current month grid
@@ -16,6 +55,7 @@ const now = moment();
  */
 export const getMonthViewDayProps = ({ month, year }) => {
   const currentPeriod = `${year} ${month}`;
+
   const previousMonth = moment(currentPeriod).subtract(1, 'month');
   const nextMonth = moment(currentPeriod).add(1, 'month');
 
@@ -29,43 +69,32 @@ export const getMonthViewDayProps = ({ month, year }) => {
   const numDaysInCurrentMonth = moment(currentPeriod).daysInMonth();
 
   let monthViewDays = [
-    ...Array(numDaysBeforeStartOfMonth)
-      .fill(DAY_IN_OTHER_MONTH)
-      .map((el, index) => ({
-        ...el,
-        day: numDaysInPreviousMonth - numDaysBeforeStartOfMonth + index + 1,
-        month: previousMonth.format('MMMM'),
-        year: previousMonth.format('MMMM') === 'December' ? year - 1 : year
-      })),
+    ...getDaysPreviousMonth({
+      numDaysBeforeStartOfMonth,
+      numDaysInPreviousMonth,
+      previousMonth,
+      year
+    }),
 
-    ...Array(numDaysInCurrentMonth)
-      .fill(DAY_IN_CURRENT_MONTH)
-      .map((el, index) => ({
-        ...el,
-        day: index + 1,
-        month: now.format('MMMM'),
-        year,
-        isToday:
-          now.format('YYYY') === year.toString() &&
-          now.format('MMMM') === month &&
-          index + 1 === now.date()
-      }))
+    ...getDaysCurrentMonth({
+      numDaysInCurrentMonth,
+      year,
+      month
+    })
   ];
 
   const numDaysAfterEndOfMonth =
     TOTAL_DAYS_IN_MONTH_VIEW - monthViewDays.length;
 
   if (numDaysAfterEndOfMonth) {
-    monthViewDays = monthViewDays.concat(
-      Array(numDaysAfterEndOfMonth)
-        .fill(DAY_IN_OTHER_MONTH)
-        .map((el, index) => ({
-          ...el,
-          day: index + 1,
-          month: nextMonth.format('MMMM'),
-          year: nextMonth.format('MMMM') === 'January' ? year + 1 : year
-        }))
-    );
+    monthViewDays = [
+      ...monthViewDays,
+      ...getDaysNextMonth({
+        numDaysAfterEndOfMonth,
+        nextMonth,
+        year
+      })
+    ];
   }
 
   return monthViewDays;
