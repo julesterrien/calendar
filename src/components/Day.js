@@ -6,14 +6,14 @@ import classnames from 'classnames';
 import {
   EVENTS_REDUCER,
   MODALS_REDUCER
-} from './modules/reducers';
-import { openNewEventModal } from './actions';
+} from '../modules/reducers';
+import { openNewEventModal } from '../actions';
 
 import AddEventModal from './AddEventModal';
 
 import './Day.css';
 import Events from './Events';
-import { getEventDate } from './utils';
+import { getEventDate } from '../utils';
 
 const Day = ({ isCurrentPeriod, isToday, year, month, day, index }) => {
   const [numClicks, setNumClicks] = useState(0);

@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { MAIN_REDUCER } from './modules/reducers';
+import { MAIN_REDUCER } from '../modules/reducers';
 import {
   viewPreviousMonth,
   viewNextMonth,
   viewCurrentMonth,
-} from './actions';
+} from '../actions';
 
 import './Header.css';
 

@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import EventModal from './EventModal';
-import { submitNewEvent } from './thunks';
-import { closeNewEventModal } from './actions';
-import { FORM_REDUCER } from './modules/reducers';
+import { submitNewEvent } from '../thunks';
+import { closeNewEventModal } from '../actions';
+import { FORM_REDUCER } from '../modules/reducers';
 
 const AddEventModal = ownProps => {
   const dispatch = useDispatch();

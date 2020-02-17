@@ -6,9 +6,9 @@ import classnames from 'classnames';
 import EventModal from './EventModal';
 
 import './Events.css';
-import { openEventModal } from './actions';
-import { FORM_REDUCER, MODALS_REDUCER, MAIN_REDUCER } from './modules/reducers';
-import { editEvent, deleteEvent } from './thunks';
+import { openEventModal } from '../actions';
+import { FORM_REDUCER, MODALS_REDUCER, MAIN_REDUCER } from '../modules/reducers';
+import { editEvent, deleteEvent } from '../thunks';
 
 const Event = event => {
   const selectedEvent = useSelector(
@@ -82,7 +82,7 @@ const Event = event => {
       {selectedEvent && selectedEvent.eventId === event.eventId && (
         <EventModal {...eventModalData} onClose={onClose} onEnter={onClose} />
       )}
-      {event.title}
+      {event.title.length > 15 ? `${event.title.substring(0, 13)}...` : event.title}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { reset, update } from 'novux';
 
 import Modal from './Modal';
-import { FORM_REDUCER } from './modules/reducers';
+import { FORM_REDUCER } from '../modules/reducers';
 
 import './EventModal.css';
 
