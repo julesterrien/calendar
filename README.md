@@ -4,7 +4,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Calendar app loosely inspired by Apple's calendar app.
 
-Features:
+![Wonder](https://github.com/julesterrien/calendar/blob/master/calendar.png)
+
+### Features
 - Double click on any day to add an event
 - Click on added events to edit
 - Click on an added event and then on 'backspace' to delete
