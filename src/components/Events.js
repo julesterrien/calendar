@@ -53,6 +53,7 @@ const Event = event => {
   };
 
   useEffect(() => {
+    // keep track of how many times a user has clicked on an event to open the modal
     if (numClicks === 1) {
       setIsHighlighted(true);
     }
@@ -63,11 +64,13 @@ const Event = event => {
   }, [numClicks, dispatch, event]);
 
   useEffect(() => {
+    // reset values on mount
     setIsHighlighted(false);
     setNumClicks(0);
-  }, [selectedEvent]);
+  }, []);
 
   useEffect(() => {
+    // delete the event when it's selected and backspace is hit
     if (backspaceClicked && numClicks === 1) {
       dispatch(deleteEvent(event));
     }

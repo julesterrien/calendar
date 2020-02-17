@@ -3,10 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 
-import {
-  EVENTS_REDUCER,
-  MODALS_REDUCER
-} from '../modules/reducers';
+import { EVENTS_REDUCER, MODALS_REDUCER } from '../modules/reducers';
 import { openNewEventModal } from '../actions';
 
 import AddEventModal from './AddEventModal';
