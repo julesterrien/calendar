@@ -79,7 +79,7 @@ I defined a set of stories to understand the work to be done:
 
 Days map to arrays of events (arrays are lists in redis)
 - Key: `year:month:day`
-- Value: `List<`eventId:title:location`>`
+- Value: `Array<`eventId:title:location`>`
 
 #### How can frontend state be organized?
 
