@@ -40,7 +40,7 @@ const getDaysPreviousMonth = ({
 const getDaysCurrentMonth = ({ numDaysInCurrentMonth, year, month }) =>
   Array(numDaysInCurrentMonth)
     .fill(DAY_IN_CURRENT_MONTH)
-    .map(({ isCurrentPeriod, }, index) => ({
+    .map(({ isCurrentPeriod }, index) => ({
       isCurrentPeriod,
       day: index + 1,
         month,
@@ -54,7 +54,7 @@ const getDaysCurrentMonth = ({ numDaysInCurrentMonth, year, month }) =>
 const getDaysNextMonth = ({ numDaysAfterEndOfMonth, nextMonth, year }) =>
   Array(numDaysAfterEndOfMonth)
     .fill(DAY_IN_OTHER_MONTH)
-    .map(({ isCurrentPeriod,}, index) => ({
+    .map(({ isCurrentPeriod }, index) => ({
       isCurrentPeriod,
       day: index + 1,
       month: nextMonth.format('MMMM'),
